@@ -1,0 +1,181 @@
+<html lang="en"><head>
+  <title>&lt;model-viewer&gt; example</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <!-- Resize Observer polyfill is required for non-Chrome browsers: -->
+  <script src="https://unpkg.com/resize-observer-polyfill/dist/ResizeObserver.js"></script>
+
+  <!-- Fullscreen polyfill is required for using experimental AR features in Canary: -->
+  <script src="https://unpkg.com/fullscreen-polyfill/dist/fullscreen.polyfill.js"></script>
+
+  <!-- Web Components polyfill is required to support Edge and Firefox < 63: -->
+  <script src="https://unpkg.com/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+  <!-- Intersection Observer polyfill is required for Safari and IE11: -->
+  <script src="https://unpkg.com/intersection-observer/intersection-observer.js"></script>
+
+
+  <style>
+    :not(:defined) > * {
+      display: none;
+    }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+    }
+
+    model-viewer {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top right, rgb(16, 141, 199), rgb(239, 142, 56));
+      --poster-color: transparent;
+      --ar-button-scale: 1.25;
+    }
+
+    model-viewer:not(.show-hotspots) .hotspot {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .hotspot {
+      position: relative;
+      background: #fff;
+      border-radius: 32px;
+      box-sizing: border-box;
+      border: 0;
+      transition: opacity 0.3s;
+
+      width: 24px;
+      height: 24px;
+      padding: 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .hotspot:not([data-visible]) {
+      background: transparent;
+      border: 4px solid #fff;
+
+      width: 32px;
+      height: 32px;
+      box-shadow: none;
+      pointer-events: none;
+    }
+
+    .hotspot:focus {
+      border: 4px solid rgb(0, 128, 200);
+      width: 32px;
+      height: 32px;
+      outline: none;
+    }
+
+    .hotspot > * {
+      transform: translateY(-50%);
+      opacity: 1;
+    }
+
+    .hotspot:not([data-visible]) > * {
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(calc(-50% + 4px));
+      transition: transform 0.3s, opacity 0.3s;
+    }
+
+    .info {
+      display: block;
+      position: absolute;
+      font-family: Futura, Helvetica Neue, sans-serif;
+      color: rgba(0, 0, 0, 0.8);
+      font-weight: 700;
+      font-size: 18px;
+      max-width: 128px;
+      padding: 0.5em 1em;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+      left: calc(100% + 1em);
+      top: 50%;
+    }
+
+    paper-toggle-button {
+      --paper-toggle-button-checked-bar-color:  var(--paper-orange-500);
+      --paper-toggle-button-checked-button-color:  var(--paper-orange-500);
+      --paper-toggle-button-checked-ink-color: var(--paper-orange-500);
+      --paper-toggle-button-label-color: #eee;
+      position: absolute;
+      bottom: 1em;
+      left: 1em;
+    }
+    
+    .mwc-switch-wrapper {
+      position: absolute;
+      bottom: 2em;
+      left: 2em;
+      color: #fff;
+    }
+    
+    mwc-switch > span {
+      display: inline-block;
+      height: 1em;
+      vertical-align: 1px;
+      margin: 0 0.75em;
+    }
+
+    mwc-switch {
+      --mdc-theme-secondary: orange;
+      font-family: system-ui;
+    }
+  </style>
+<style><!---->@keyframes mdc-ripple-fg-radius-in{from{animation-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transform:translate(var(--mdc-ripple-fg-translate-start, 0)) scale(1)}to{transform:translate(var(--mdc-ripple-fg-translate-end, 0)) scale(var(--mdc-ripple-fg-scale, 1))}}@keyframes mdc-ripple-fg-opacity-in{from{animation-timing-function:linear;opacity:0}to{opacity:var(--mdc-ripple-fg-opacity, 0)}}@keyframes mdc-ripple-fg-opacity-out{from{animation-timing-function:linear;opacity:var(--mdc-ripple-fg-opacity, 0)}to{opacity:0}}<!----></style></head> 
+<body>
+  <!-- All you need to put beautiful, interactive 3D content on your site: -->
+  <model-viewer src="https://cdn.glitch.com/50146706-188d-4f3c-985f-25aa20f3ccc6/FlightHelmet.gltf?v=1582129567127" poster="https://cdn.glitch.com/50146706-188d-4f3c-985f-25aa20f3ccc6%2Fflight-helmet-poster.png?v=1587018642283" alt="A 3D diorama of a cartoon micro-Tokyo" camera-target="0 0 0" id="modelViewer" autoplay="" ar="" ar-modes="webxr" camera-controls="" class="show-hotspots">
+    
+    <button slot="hotspot-1" class="hotspot" data-position="0.06227870672895752m 0.11216848898081261m 0.12283586203401331m" data-normal="0.5814505288392198m -0.007198749961496475m 0.813549912735281m" data-visibility-attribute="visible" data-visible="">
+      <span class="info">Goggles</span>
+    </button>
+    <button slot="hotspot-2" class="hotspot" data-position="-0.06454901208304742m -0.4014700035964861m 0.18698600491197193m" data-normal="0.00190849893m -0.111985m 1.013313001m" data-visibility-attribute="visible" data-visible="">
+      <span class="info">Base</span>
+    </button>
+    <button slot="hotspot-3" class="hotspot" data-position="-0.10262054294829048m 0.002404305126803674m -0.039175852972411274m" data-normal="-0.8926035423152072m -0.4477844993913197m -0.05242097243670247m" data-visibility-attribute="visible">
+      <span class="info">Radio</span>
+    </button>
+    <button slot="hotspot-4" class="hotspot" data-position="0.04462824949925839m -0.1668313617470109m -0.11603695030782916m" data-normal="0.5209257127683968m -0.09796114179140926m -0.8066175128348898m" data-visibility-attribute="visible">
+      <span class="info">Jack</span>
+    </button>
+    <button slot="hotspot-5" class="hotspot" data-position="-0.16328526624989861m -0.32599879517827784m -0.08371714610596497m" data-normal="-1.0297723935154521m -0.13593619289935555m -0.05686391753561286m" data-visibility-attribute="visible">
+      <span class="info">Oxygen</span>
+    </button>
+    <button slot="hotspot-6" class="hotspot" data-position="0.05783896680791818m 0.20414454126442289m -0.061997083084692046m" data-normal="0.518360535327781m 0.8398033399452054m -0.2932141580247645m" data-visibility-attribute="visible">
+      <span class="info">Insulation</span>
+    </button>
+
+    <div class="mwc-switch-wrapper">
+      <mwc-switch id="toggleHotspots" style="position: relative;"><span>Show annotations</span></mwc-switch>
+    </div>
+<!--     <paper-toggle-button id="toggleHotspots">Show annotations</paper-toggle-button> -->
+    
+  </model-viewer>
+  <script type="module">
+    
+    toggleHotspots.addEventListener('change', () => {
+      modelViewer.classList.toggle('show-hotspots', toggleHotspots.checked);
+    });
+    
+  </script>
+  
+  <!-- And finally, the model-viewer bundle: -->
+
+  
+  <script type="module" src="https://unpkg.com/@google/model-viewer@0.10.0/dist/model-viewer.js"></script>
+  <script nomodule="" src="https://googlewebcomponents.github.io/model-viewer@0.10.0/dist/model-viewer-legacy.js"></script>
+  
+<!--   <script type="module" src="https://unpkg.com/@polymer/paper-toggle-button@3.0.1/paper-toggle-button.js?module"></script> -->
+  <script type="module" src="https://unpkg.com/@material/mwc-switch@0.14.1/mwc-switch.js?module"></script>
+
+
+</body></html>
